@@ -1,0 +1,60 @@
+# --- 🐍 Python Ignore ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+backend/.env
+*.env
+*.venv
+.venv/
+venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# --- 🌐 Django Ignore ---
+db.sqlite3
+/media/
+staticfiles/
+*.log
+*.pot
+.DS_Store
+.idea/
+.vscode/
+*.swp
+node_modules/
+
+# --- 📦 Poetry Ignore ---
+poetry.lock
+.mypy_cache/
+.dmypy.json
+.pytest_cache/
+
+# --- 🐍 Conda Ignore ---
+env/
+conda-meta/
+*.conda
+
+
+# --- 🐳 Docker Ignore ---
+docker-compose.override.yml
+docker-compose.override.yaml
+
+# --- 🗑️ Ignore system junk ---
+*.bak
+*.backup
+*.swo
+*.swn
+*.sublime-project
+*.sublime-workspace
+
+# --- 📂 Ignore IDE / Editor files ---
+*.code-workspace
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+# --- 🌐 Front Ignore ---
+node_modules/
+.next/
