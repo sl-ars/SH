@@ -27,6 +27,7 @@ urlpatterns = [
 
     # Apps
     path("api/user/", include("users.urls")),
+    path('api/', include('resources.urls')),
 
 
     # DRF Spectacular - Schema, Swagger UI, Redoc UI
