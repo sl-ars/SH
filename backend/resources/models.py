@@ -44,7 +44,7 @@ class ResourceFile(models.Model):
     resource = models.ForeignKey(Resource, on_delete=models.CASCADE, related_name='files')
     title = models.CharField(max_length=255)
     file = models.FileField(storage=PublicAssetStorage(), upload_to='resources/')
-    file_type = models.CharField(max_length=50)
+    file_type = models.CharField(max_length=70)
     size = models.BigIntegerField(default=0, help_text="File size in bytes")
     open_in_new_tab = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
