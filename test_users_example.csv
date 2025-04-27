@@ -1,0 +1,7 @@
+email,password,name,role,university,department,position,company_name,phone
+bulkstud12@example.com,testpass123,Bulk Student 1,student,My University,,,77011234567
+bulkemp12@example.com,testpass123,Bulk Employer 1,employer,,,,Bulk Company LLC,77021234567
+bulkcamp12@example.com,testpass123,Bulk Campus 1,campus,My University,IT Department,Coordinator,,77051234567
+error2@example.com,testpass123,Error User,unknown,,,,
+,testpass1234,No Email User,student,,,,
+validstud1@example.com,,No Password User,student,Another Uni,,,, 

@@ -1,0 +1,131 @@
+services:
+###############################################################################
+# Front
+###############################################################################
+  sh-app:
+    container_name: sh-app
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: "/api"
+        NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - backend
+      - nginx-proxy
+
+  nginx_proxy: # Nginx reverse proxy service
+    image: nginx:latest
+    container_name: sh-nginx-proxy
+    volumes:
+      - ./nginx/nginx.prod.conf:/etc/nginx/nginx.conf:ro
+      - sh_static:/app/staticfiles/:ro
+
+    networks:
+      - nginx-proxy
+      - backend
+    depends_on:
+      - sh-app
+      - backend
+    restart: unless-stopped
+
+###############################################################################
+# Redis (for Celery)
+###############################################################################
+  redis:
+    container_name: sh-redis
+    image: redis:7.2-alpine
+    restart: always
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks: [ backend ]
+
+###############################################################################
+# PostgreSQL
+###############################################################################
+  db:
+    container_name: sh-db
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_DB:       ${POSTGRES_DB}
+      POSTGRES_USER:     ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks: [ backend ]
+
+###############################################################################
+# Django  Gunicorn
+###############################################################################
+  backend:
+    container_name: sh-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - sh_static:/app/staticfiles
+      - sh_media:/app/media
+
+    networks:
+      - backend
+      - nginx-proxy
+
+###############################################################################
+# Celery Worker
+###############################################################################
+#  celery_worker:
+#    container_name: sh-celery-worker
+#    build:
+#      context: ./backend
+#      dockerfile: Dockerfile.prod
+#    command: celery -A config.celery worker -l info
+#    env_file: .env
+#    volumes:
+#      - sh_media:/app/media
+#    depends_on:
+#      backend:
+#        condition: service_healthy
+#      redis:
+#        condition: service_healthy
+#    restart: unless-stopped
+#    networks:
+#      - backend
+
+###############################################################################
+volumes:
+  pgdata:
+  sh_static:
+  sh_media:
+  ldap_data:
+  ldap_config:
+  redis_data:
+
+networks:
+  backend:      { driver: bridge }
+  nginx-proxy:  { external: true } # external: true - Temporarily commented for local testing
