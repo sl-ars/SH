@@ -5,7 +5,7 @@ try {
 } catch (e) {
   try {
     // fallback to CJS import
-    userConfig = await import("./v0-user-next.config.mjs");
+    userConfig = await import("./v0-user-next.config");
   } catch (innerError) {
     // ignore error
   }
