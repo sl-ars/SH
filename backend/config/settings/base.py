@@ -30,8 +30,6 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'storages',
     'django_filters',
-
-
     'jobs',
     'applications',
     'companies',
@@ -41,10 +39,6 @@ INSTALLED_APPS = [
     'resources',
     'core',
     'users',
-
-
-
-
     'drf_spectacular',
     'corsheaders',
     'sentry_sdk',
