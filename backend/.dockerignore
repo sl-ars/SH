@@ -1,0 +1,48 @@
+# Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyc
+*.pkl
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.swp
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Tests and coverage
+tests/
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+
+# Migrations (optional, if you auto-generate them)
+# */migrations/
+
+# Local env files
+.env
+.env.*
+
+# Docker artifacts
+Dockerfile*
+docker-compose*

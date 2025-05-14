@@ -9,7 +9,7 @@ import logging
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 env = environ.Env()
-env_path = os.getenv("ENV_PATH", BASE_DIR.parent.parent / ".env")
+env_path = os.getenv("ENV_PATH", BASE_DIR.parent / ".env")
 environ.Env.read_env(env_path)
 
 
